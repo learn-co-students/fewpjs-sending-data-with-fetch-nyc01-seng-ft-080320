@@ -13,4 +13,26 @@ const submitData = (userName, userEmail) => {
     }
 
     return fetch( url, configObj)
+        .then(reponse => reponse.json())
+        .then(data => renderData(data))
+        .catch(error => appendErrorToDOM(error.message))
+}
+
+const renderData = (dataCollection) => {
+    const body = document.querySelector('body')
+    const ul = document.createElement('ul')
+    ul.innerHTML = `
+        <li>UserName: ${dataCollection.name}</li>
+        <li>Email: ${dataCollection.email}</li>
+        <li>Id: ${dataCollection.id}</li>
+    `
+    body.append(ul)
+}
+
+const appendErrorToDOM = (message) => {
+    const body = document.querySelector('body')
+    const el = document.createElement('p')
+    el.textContent = message
+    body.append(el)
+
 }
